@@ -43,7 +43,7 @@ export default {
     },
     methods:{
         login(){
-            if(this.email =="emmowu10@gmail.com" && this.password=="thethethe"){
+            if(this.email =="admin@email.com" && this.password=="admin1234"){
                 localStorage.setItem('isLoggedIn', true)
                 alert('Login successful')
                 navAndHeaderVisible()
