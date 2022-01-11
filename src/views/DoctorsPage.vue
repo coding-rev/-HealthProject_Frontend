@@ -1,6 +1,9 @@
 <template>
   <div class="page-wrapper">
             <div class="content">
+                <h1>
+                    {{allDoctors}}
+                </h1>
                 <div class="row">
                     <div class="col-sm-4 col-3">
                         <h4 class="page-title">Doctors</h4>
@@ -471,3 +474,22 @@
 			</div>
 		</div>
 </template>
+
+<script>
+export default {
+    name: "DoctorListPage",
+    data(){
+        return{
+            allDoctors:getDoctors()
+        } 
+    },
+    computed: {
+        getDoctors(){
+            return this.$doctorStore.getters.allDoctors
+        }
+  },
+  created() {
+    this.$doctorStore.dispatch("getAllDoctors");
+  }
+}
+</script>
