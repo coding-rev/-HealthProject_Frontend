@@ -1,38 +1,40 @@
 import axios from 'axios';
 
-const base_url = "http://127.0.0.1:8000"
+const base_url = 'http://127.0.0.1:8000'
 
 const state = {
-  allDoctors: []
+  allDoctorsArray: [
+    {
+      "id":1,
+      "name":"Doctor One"
+    },
+    {
+      "id":2,
+      "name":"Doctor Two"
+    }
+  ]
 }
 
 const mutations = {
-    UPDATE_DOCTORS_LIST(state, payload) {
-      state.allDoctors = payload;
-    }
+    update_allDoctors_list: (state, allDoctorsArray) => state.allDoctorsArray = tasks
   }
 
 const actions = {
-  getAllDoctors({ commit }) {
-    axios.get(base_url+'/all-doctors').then((response) => {
-      commit('UPDATE_DOCTORS_LIST', response.data["data"])
-    });
-  }
+  // Fetching all doctors
+  async fetchAllDoctors({ commit }){
+      const response = await axios.get(base_url+'/all-doctors');
+      console.log(response.data)
+      commit('update_allDoctors_list', response.data['data'])
+  },
 }
 
 const getters = {
-    allDoctors: state => state.allDoctors,
-    allDoctorsById: (state) => (id) => {
-      return state.allDoctors.find(doctor => doctor.id === id)
-    }
+    allDoctors: state =>  state.allDoctorsArray
   }
 
-
-const doctorsModule = {
+export default{
   state,
   mutations,
   actions,
   getters
-}
-
-export default doctorsModule;
+};

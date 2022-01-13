@@ -1,9 +1,6 @@
 <template>
   <div class="page-wrapper">
-            <div class="content">
-                <h1>
-                    {{allDoctors}}
-                </h1>
+      <div class="content">
                 <div class="row">
                     <div class="col-sm-4 col-3">
                         <h4 class="page-title">Doctors</h4>
@@ -476,20 +473,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
     name: "DoctorListPage",
-    data(){
-        return{
-            allDoctors:getDoctors()
-        } 
-    },
-    computed: {
-        getDoctors(){
-            return this.$doctorStore.getters.allDoctors
-        }
-  },
-  created() {
-    this.$doctorStore.dispatch("getAllDoctors");
-  }
-}
+    computed: mapGetters(['allDoctorsArray'])
+};
 </script>
