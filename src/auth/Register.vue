@@ -17,7 +17,7 @@
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input v-model="form.password" type="password" class="form-control" required>
+                            <input v-model="form.password" type="password" minlength="8" class="form-control" required>
                         </div>
                         <div id="account-type-style">
                             <div class="form-group">
@@ -37,7 +37,8 @@
                             </label>
                         </div>
                         <div class="form-group text-center">
-                            <button class="btn btn-primary account-btn" type="submit">Signup</button>
+                            <button v-if="isLoading" class="btn btn-primary account-btn" disabled>Processing</button>
+                            <button v-else class="btn btn-primary account-btn" type="submit">Signup</button>
                         </div>
                         <div class="text-center login-link">
                             Already have an account? <router-link to="/login">Login</router-link>
@@ -51,13 +52,12 @@
 
 <script>
 import axios from 'axios'
-// const base_url = 'http://127.0.0.1:8000'
-const base_url = 'https://healthprojectapi.herokuapp.com'
 
 export default {
     name: 'register',
     data(){
         return {
+            isLoading:false,
             form: {
                 full_name: '',
                 email: '',
@@ -71,6 +71,9 @@ export default {
     methods:{
         async register(e) {
           e.preventDefault();
+          // Show progress indicator
+          this.isLoading=true
+
           var patientAccount=false
           var doctorAccount=false
           if(this.form.is_patient==false){
@@ -78,6 +81,7 @@ export default {
           }else{
               patientAccount=true
           }
+          const base_url = await this.$store.state.base_url
           const response = await axios.post(
               base_url+'/register', 
               {
@@ -87,13 +91,18 @@ export default {
                 is_doctor:doctorAccount,
                 password:this.form.password   
                 }
-              );
-          if(response.status==201){
-            alert(response.data["message"])
-            this.$router.push('/login')
-          }else{
-            alert("Ooops.. an error occured")
-          }
+              )
+              .then((response)=>{
+                // Stop progress indicator
+                  this.isLoading=false
+
+                  alert(response.data["message"])
+                  this.$router.push('/login')
+              })
+              .catch((error)=>{
+                  this.isLoading=false
+                  alert("Registration failed. Email already exist")
+              })
       },
         
     }
