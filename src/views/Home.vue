@@ -6,7 +6,7 @@
                         <div class="dash-widget">
 							<span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
 							<div class="dash-widget-info text-right">
-								<h3>98</h3>
+								<h3>{{doctorsCount}}</h3>
 								<span class="widget-title1">Doctors <i class="fa fa-check" aria-hidden="true"></i></span>
 							</div>
                         </div>
@@ -15,7 +15,7 @@
                         <div class="dash-widget">
                             <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
                             <div class="dash-widget-info text-right">
-                                <h3>1072</h3>
+                                <h3>{{patientsCount}}</h3>
                                 <span class="widget-title2">Patients <i class="fa fa-check" aria-hidden="true"></i></span>
                             </div>
                         </div>
@@ -354,9 +354,18 @@
 
 <script>
 export default {
-  name: 'Home',
-  components: {
-    
+    name: "Home",
+    mounted(){
+        this.$store.dispatch("fetchAllDoctors")
+		this.$store.dispatch("fetchAllPatients")
+    },
+    computed: {
+		doctorsCount() {
+            return this.$store.state.allDoctors.length
+        },
+		patientsCount(){
+			return this.$store.state.allPatients.length
+		}
   }
-}
+};
 </script>

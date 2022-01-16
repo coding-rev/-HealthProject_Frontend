@@ -1,22 +1,35 @@
-// import { createStore } from 'vuex'
-// import doctor from'./modules/doctors';
-// import patient from './modules/patients';
+import { createStore } from 'vuex'
+import axios from 'axios';
+const base_url = 'http://127.0.0.1:8000'
 
-// export default createStore({
-//   modules: {
-//     doctor,
-//     patient
-//   }
-// })
+export default createStore({
+  state: {
+    // Doctors States
+    allDoctors:[],
 
-import Vue from 'vue'
-import Vuex from 'vuex'
-import doctor from './modules/doctors'
-
-Vue.use(Vuex);
-
-export default new Vuex.Store({
-  modules:{
-    doctor
+    // Patients States
+    allPatients:[]
+  },
+  mutations: {
+    // Doctors mutations
+    update_allDoctors_list: (state, newData) => state.allDoctors = newData,
+    
+    // Patients mutations
+    update_allPatients_list: (state, newData) => state.allPatients = newData
+  },
+  actions: {
+    // Doctors Actions
+    async fetchAllDoctors({ commit }){
+      const response = await axios.get(base_url+'/all-doctors');
+      commit('update_allDoctors_list', response.data['data'])
+    },
+    
+    // Patients Actions
+    async fetchAllPatients({ commit }){
+      const response = await axios.get(base_url+'/all-patients');
+      commit('update_allPatients_list', response.data['data'])
+    },
+  },
+  modules: {
   }
 })
