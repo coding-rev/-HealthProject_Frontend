@@ -160,7 +160,11 @@
 									<li v-for="doctor in allDoctors" :key="doctor.id">
                                         <div class="contact-cont">
                                             <div class="float-left user-img m-r-10">
-                                                <a href="#" title="John Doe"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                                                <a href="#">
+													<img v-if="doctor.profile_image" :src="base_url + doctor.profile_image" height="40" width="40" class="w-40 rounded-circle">
+													<img v-else src="assets/img/user.jpg" class="w-40 rounded-circle">
+													<span class="status online"></span>
+												</a>
                                             </div>
                                             <div class="contact-info">
                                                 <span class="contact-name text-ellipsis">{{doctor.full_name}}</span>
@@ -215,6 +219,11 @@
 <script>
 export default {
     name: "Home",
+	data(){
+		return {
+			base_url: this.$store.state.base_url
+		}
+	},
     mounted(){
         this.$store.dispatch("fetchAllDoctors")
 		this.$store.dispatch("fetchAllPatients")

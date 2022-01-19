@@ -14,7 +14,11 @@
                     <div v-for="doctor in allDoctors" :key="doctor.id" class="col-md-4 col-sm-4  col-lg-3">
                         <div class="profile-widget">
                             <div class="doctor-img">
-                                <a class="avatar" href="profile.html"><img alt="" src="assets/img/doctor-thumb-03.jpg"></a>
+                                <a class="avatar" href="#">
+                                    <img v-if="doctor.profile_image" alt="md" width="80" height="80" :src="base_url + doctor.profile_image">
+                                    <center v-else>MD</center>
+                                    
+                                </a>
                             </div>
                             <div class="dropdown profile-action">
                                 <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -26,10 +30,9 @@
                             <h4 class="doctor-name text-ellipsis"><a href="profile.html">{{ doctor.full_name }}</a></h4>
                             <div class="doc-prof">{{doctor.email}}</div>
                             <div class="user-country">
-                                <i class="fa fa-map-marker"></i> United States, San Francisco
+                                <i class="fa fa-map-marker"></i> Ghana
                             </div>
                         </div>
-                    
                     </div>
                    <!-- ends here -->
                     
@@ -271,6 +274,11 @@
 <script>
 export default {
     name: "DoctorListPage",
+    data(){
+        return{
+            base_url: this.$store.state.base_url
+        }
+    },
     mounted(){
         this.$store.dispatch("fetchAllDoctors")
     },
