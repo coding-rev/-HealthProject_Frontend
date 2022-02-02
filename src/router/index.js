@@ -48,6 +48,14 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('../auth/Register.vue')
+  },
+  // Sub pages
+  {
+    path: '/edit-user/:id',
+    name: 'EditUser',
+    meta: {requiresAuth:true},
+    props: true,
+    component: () => import('../views/EditUserPage.vue')
   }
 ]
 

@@ -21,7 +21,7 @@ const actions = {
 const getters = {
     allPatients: state => state.allPatients,
     allPatientsById: (state) => (id) => {
-      return state.allPatients.find(patient => patient.id === id)
+      return state.allPatients.find(patient => patient.id == id)
     }
   }
 
